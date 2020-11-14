@@ -1,0 +1,52 @@
+h1
+{
+  text-align: center;
+}
+
+body{
+  background-image: url('logo_Python.png');
+  background-size: 80%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+
+
+#app
+{
+  font-family:sans-serif,arial;
+  color: white;
+  text-align: center;
+  border:3px black solid;
+  border-radius:10px;
+  width: 50%;
+  margin:auto;
+  margin-top: 50%;
+  margin-bottom: 50%;
+  background-color: grey; 
+}
+
+form{
+  border:3px black solid;
+  border-radius:10px;
+  width: 50%;
+  margin:auto;
+  text-align: left;
+  padding-left: 10%;
+}
+
+#images
+{
+  border:3px black solid;
+  border-radius:10px;
+  width: 80%;
+  margin:auto;
+  display:flex;
+  flex-wrap:nowrap;
+  align-content:space-between;
+}
+
+.pictures:hover
+{
+  box-shadow: 6px 6px 6px black;
+}

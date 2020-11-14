@@ -1,34 +1,72 @@
 <!doctype html>
-<title>Projet</title>
-<h2>Veuillez Sélectionner une image</h2>
-<p>
-	<!--On part sur du jinja2 permettant d'utiliser du python dans une page html-->
-	<!-- Ici, si il y a un flashed message, cad un retour de l'application, on peut l'afficher ici-->
-	{% with messages = get_flashed_messages() %}
-	  {% if messages %}
-		<ul class=flashes>
-		{% for message in messages %}
-		  <li>{{ message }}</li>
-		{% endfor %}
-		</ul>
-	  {% endif %}
-	{% endwith %}
-</p>
+<html>
+	<head>
+		<meta charste="utf-8"/>
+		<title>Projet</title>
+		<link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}"/>
+	</head>
 
-{% if filename %}
-	<div>
-		<img src="{{ url_for('display_image', filename=filename) }}">
-		<!-- La fonction url_for crée un url avec le retour de la fonction display_image appliqué à filename.-->
-	</div>
-{% endif %}
-
-<form method="post" action="/" enctype="multipart/form-data">
-    <dl>
+	<body>
+		<div id='app'>
+		<header>
+			<h1>Projet Python</h1>
+			<p>Paul BOISSON</p>
+		</header>
+		<hr>
+		<h2>Veuillez Sélectionner une image</h2>
 		<p>
-			<input type="file" name="file" autocomplete="off" required>
+		<!--On part sur du jinja2 permettant d'utiliser du python dans une page html-->
+		<!-- Ici, si il y a un flashed message, cad un retour de l'application, on peut l'afficher ici-->
+		{% with messages = get_flashed_messages() %}
+	  		{% if messages %}
+				<ul class=flashes>
+				{% for message in messages %}
+		  			<li>{{ message }}</li>
+				{% endfor %}
+				</ul>
+	  		{% endif %}
+		{% endwith %}
 		</p>
-    </dl>
-    <p>
-		<input type="submit" value="Submit">
-	</p>
-</form>
+
+		<!--{% if filename %}
+			<div>
+				<img src="{{ url_for('display_image', filename=filename) }}">
+				La fonction url_for crée un url avec le retour de la fonction display_image appliqué à filename.
+			</div>
+		{% endif %} -->
+
+		<!-- un form peut être de forme get ou post-->
+		<form method="post" action="/" enctype="multipart/form-data">
+		<!--Le format multipart/form-data est utilisé quand au moins un des champ du form est un file-->
+    		<dl>
+				<p>
+					<input type="file" name="file" autocomplete="off" required>
+				</p>
+    		</dl>
+
+			<p>	
+				<input type="submit" name="sub" value="Submit">
+			</p>
+		</form>
+
+		<hr>
+
+		<div id = "Display_Folder">
+			<p>
+			<label>Images déjà chargées</label>
+			</p>
+      <div id="images">
+			<p>
+				{%for file in files%}
+					<img src="{{url_for('display_image', filename=file)}}" class="pictures" style="width: 200px">
+				{% endfor %}
+			</p>
+      </div>
+		</div>
+
+<!--Ajout d'un form en get sous la forme d'une liste pour afficher les images déjà chargée-->
+
+
+		</div>
+	</body>
+</html>

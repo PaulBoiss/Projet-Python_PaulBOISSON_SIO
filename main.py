@@ -12,7 +12,8 @@ def allowed_file(filename):
 # Première app.route qui permet de lancer la page html lorsqu'on lance le serveur et qu'on s'y connecte. S'y connecter, c'est une requête GET. 
 @app.route('/')
 def upload_form():
-	return render_template('upload.html')
+	files = os.listdir(app.config['UPLOAD_FOLDER']) # files devient la liste des fichiers dans le dossier d'upload. 
+	return render_template('upload.html', files=files) # On renvoit la page html contenant la liste des fichiers dans le dossier d'upload
 
 # Lorsqu'on appuie sur le bouton submit de la page HTML, celui-ci émet une requête POST. 
 @app.route('/', methods=['POST'])
@@ -20,15 +21,15 @@ def upload_image():
 	if 'file' not in request.files:
 		flash('No file part')	# Message flash
 		return redirect(request.url)
-	file = request.files['file']
+	file = request.files['file'] # file devient le fichier chargé dans la page html
 	if file.filename == '':
 		flash('No image selected for uploading') # Message flash
 		return redirect(request.url)
 	if file and allowed_file(file.filename):
-		filename = secure_filename(file.filename)
-		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+		filename = secure_filename(file.filename) # Il faut sécuriser le nom du fichier pour éviter que des commandes se cachent dedans.  
+		file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename)) # Ce n'est qu'à partir du moment où on utilise la méthode save que le fichier est enregistré sur le disque 
 		flash('Image successfully uploaded and displayed') # Le flash est un élément qui peut être récupéré par la partie html avec jinja2. 
-		return render_template('upload.html', filename=filename)
+		return redirect(request.url)
 	else:
 		flash('Allowed image types are -> png, jpg, jpeg, gif')
 		return redirect(request.url)

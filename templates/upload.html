@@ -2,6 +2,8 @@
 <title>Projet</title>
 <h2>Veuillez Sélectionner une image</h2>
 <p>
+	<!--On part sur du jinja2 permettant d'utiliser du python dans une page html-->
+	<!-- Ici, si il y a un flashed message, cad un retour de l'application, on peut l'afficher ici-->
 	{% with messages = get_flashed_messages() %}
 	  {% if messages %}
 		<ul class=flashes>
@@ -12,11 +14,14 @@
 	  {% endif %}
 	{% endwith %}
 </p>
+
 {% if filename %}
 	<div>
 		<img src="{{ url_for('display_image', filename=filename) }}">
+		<!-- La fonction url_for crée un url avec le retour de la fonction display_image appliqué à filename.-->
 	</div>
 {% endif %}
+
 <form method="post" action="/" enctype="multipart/form-data">
     <dl>
 		<p>

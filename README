@@ -1,0 +1,24 @@
+Accéder à l'environnement virtuel
+-> source env/bin/activate
+
+Installation de Flask pour la création de serveur web:
+-> pip install flask
+
+Installation de Pillow pour la gestion des images:
+-> python3 -m pip install --upgrade Pillow
+
+Installation de tkinter pour la création d'interface:
+-> sudo apt install tcl
+-> sudo apt install tk
+
+
+Lancer le serveur:
+-> FLASK_APP=main.py flask run
+
+Attention, à l'utilisation de render_template, le template doit être situé dans une dossier appelé "templates" et Flask ira chercher le template dedans. 
+
+Pour que Flask puisse charger les images dans un dossier, celui-ci doit être : static/uploads. 
+
+Des fois, on peut avoir un problème avec le port 5000 (utilisé par un autre programme):
+Lister les programme en écoute : sudo lsof -i -P -n | grep LISTEN
+Tuer les programme sur le port 5000: sudo fuser -k 5000/tcp

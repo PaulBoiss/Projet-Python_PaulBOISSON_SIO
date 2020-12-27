@@ -4,16 +4,18 @@ h1
 }
 
 body{
-  background-image: url('logo_Python.png');
-  background-size: 80%;
+  background-color: rgb(255, 255, 255); 
+  /*background-image: url('logo_Python.png');
+  background-size: 50%;
   background-position: center;
   background-repeat: no-repeat;
+  background-position-y: top;*/
 }
-
 
 
 #app
 {
+  box-shadow: 0px 0px 30px black; 
   font-family:sans-serif,arial;
   color: white;
   text-align: center;
@@ -21,9 +23,9 @@ body{
   border-radius:10px;
   width: 50%;
   margin:auto;
-  margin-top: 50%;
+  margin-top: 1%;
   margin-bottom: 50%;
-  background-color: grey; 
+  background-color: rgb(185, 183, 183); 
 }
 
 form{
@@ -46,7 +48,15 @@ form{
   align-content:space-between;
 }
 
+.images
+{ 
+
+}
+
 .pictures:hover
 {
   box-shadow: 6px 6px 6px black;
+  /*
+  width: 70px;
+  height: 74px;*/
 }

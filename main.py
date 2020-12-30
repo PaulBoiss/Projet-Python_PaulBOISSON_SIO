@@ -25,7 +25,7 @@ def webPage():
 @app.route('/', methods=['POST'])
 def upload_image():
 	if 'file' not in request.files:
-		flash('No file part')
+		flash('Pas de partie fichier')
 		return redirect(request.url)
 	file = request.files['file'] 
 	if os.path.isfile(os.path.join(app.config['UPLOAD_FOLDER'], file.filename)):
@@ -44,7 +44,7 @@ def upload_image():
 		flash('Image correctement chargée et affichée') 
 		return redirect(request.url)
 	else:
-		flash('Ce format d image n est pas autorisé. Veuiller utiliser les formats suivants: png, jpg, jpeg, gif')
+		flash('Ce format d image n est pas autorisé. Veuillez utiliser les formats suivants: png, jpg, jpeg, gif')
 		return redirect(request.url)
 
 # Route pour afficher un des fichier en grand

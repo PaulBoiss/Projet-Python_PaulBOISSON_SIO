@@ -1,3 +1,5 @@
-Pillow
-Tkinter
-Flask
+Pip (20.3.3)
+Pillow (7.2.0)
+Flask (1.1.2)
+Pytest (6.2.1)
+requests (2.25.1)

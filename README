@@ -1,24 +1,74 @@
-Accéder à l'environnement virtuel
--> source env/bin/activate
+---------------------------------Introduction---------------------------------
+Bienvenue sur mon API de gestion de fichiers, réalisée en tant que projet du module "Data Intensive Python 2020". Cette API, codée sous Python (3.8.6) permet de stocker des vignettes d'images aux formats .jpeg, .jpg, .png ou .gif, de les afficher et de récupérer leurs métadonnées.  Dans le cadre de ce projet, les vignettes sont stockées localement, dans le dossier static/uploads. Le programme est livré avec un dossier Banque_Images qui contient des fichiers utilisables pour essayer l'application. 
+
+---------------------------------Pré-requis---------------------------------
+Cette API utilise différentes librairies précisées dans le fichier "Requirements". Pour installer ces librairies, on utilise PIP, l'installateur de paquets Python, qui est fourni par défaut avec les version de Python 3 supérieures à la version 3.4. 
 
 Installation de Flask pour la création de serveur web:
--> pip install flask
+-> python3 -m pip install flask
 
 Installation de Pillow pour la gestion des images:
 -> python3 -m pip install --upgrade Pillow
 
-Installation de tkinter pour la création d'interface:
--> sudo apt install tcl
--> sudo apt install tk
+Installation de Pytest pour lancer le script de tests:
+-> python3 -m pip install -U pytest
 
+Installation de Requests pour effectuer des requêtes à l'API directement avec Python:
+-> python3 -m pip install requests
 
-Lancer le serveur:
+---------------------------------Lancement du serveur---------------------------------
+L'application est hébergée sur un serveur Flask, qui peut être lancé avec la commande suivante: 
 -> FLASK_APP=main.py flask run
+ou
+-> python -m main.py
+L'application sera hébergée localement est accessible à l'url "http://localhost:5000/".
 
-Attention, à l'utilisation de render_template, le template doit être situé dans une dossier appelé "templates" et Flask ira chercher le template dedans. 
+Flask utilise le port 5000 par défaut. Ce port peut être déjà utilisé par une autre application. Il peut être judicieux de tuer ces programmes. 
+Lister les programme en écoute : -> sudo lsof -i -P -n | grep LISTEN
+Tuer les programme sur le port 5000: -> sudo fuser -k 5000/tcp
 
-Pour que Flask puisse charger les images dans un dossier, celui-ci doit être : static/uploads. 
+---------------------------------Description de l'application---------------------------------
+Pour accéder à l'application rendez-vous à l'url "http://localhost:5000/" sur un navigateur web (Google Chrome, Firefox, Safari ou autre). Une interface graphique a été crée afin de faciliter l'utilisation de l'API et son fonctionnement est limpide. Il est toutefois possible de ne passer que par des lignes de commande afin de faire des requêtes ou d'utiliser des générateurs de requêtes comme Postman. Voici les différentes fonctionnalités:
 
-Des fois, on peut avoir un problème avec le port 5000 (utilisé par un autre programme):
-Lister les programme en écoute : sudo lsof -i -P -n | grep LISTEN
-Tuer les programme sur le port 5000: sudo fuser -k 5000/tcp
+Importer une image:
+    - Via l'interface graphique: 
+        Cliquez sur "Parcourir", et sélectionnez une image (des images sont disponibles dans le dossier "Banque_Images" )
+        Cliquez sur "Envoyer"
+    - Via la ligne de commande: 
+
+    A l'issue de cette opération, quatre messages différents peuvent vous être renvoyés sur l'interface graphique:
+        - Si l'image existe déjà : 'Image déjà chargée'
+        - Si l'image ne contient pas de donnée: 'Pas de partie fichier'
+        - Si aucune image n'est sélectionnée: 'Aucune image sélectionnée'
+        - Si le format du fichier n'est pas accepté: 'Ce format d image n est pas autorisé. Veuillez utiliser les formats suivants: png, jpg, jpeg, gif'
+        - Si l'image a correctement été importée: 'Image correctement chargée et affichée'
+
+Afficher la vignette d'une image:
+    - Via l'interface graphique: 
+        Cliquez directement sur une des images qui est apparu sur l'interface    
+    - Via la ligne de commande:
+        -> curl http://localhost:5000/display/<filename>
+        En remplaçant filename par le nom du fichier
+
+Afficher les métadonnées d'une image:
+    - Via l'interface graphique:
+        Cliquez sur le bouton "Metadata" en face d'une des images 
+    - Via la ligne de commande: 
+        -> curl http://localhost:5000/metadata/<filename>
+
+Supprimer une image du serveur:
+    - Via l'interface graphique:
+        Cliquez sur le bouton "Supprimer" en face d'une des images 
+    - Via la ligne de commande: 
+        -> curl http://localhost:5000/removeFile/<filename>
+
+---------------------------------Lancement du script de tests---------------------------------
+Pour lancer le script de test, rendez-vous dans le dossier,du projet /PROJETPYTHON_PAULBOISSON_SIO/Projet avec un terminal et lancez Pytest à l'aide de la commande -> pytest -s. Le script sera exécuté et des print() ont été utilisés pour détailler les tests. 
+
+Elements testés :
+- Connexion à la page web
+- Ajout d'une image "Adobe.png" depuis le dossier "Banque_Images"
+- Ajout d'un fichier pdf "Sujet_Projet.pdf" depuis le dossier "Banque_Images"
+- Affichage d'une image
+- Correspondance des métadonnées de l'image "Adobe.png" avec son nom
+- Suppression de l'image "Adobe.png"

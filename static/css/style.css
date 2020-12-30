@@ -43,20 +43,30 @@ form{
   border-radius:10px;
   width: 80%;
   margin:auto;
+  /*
   display:flex;
   flex-wrap:nowrap;
   align-content:space-between;
+  */
 }
 
-.images
-{ 
-
+.media {
+  display: flex;
+  align-items: space-between;
+  align-content:space-between;
 }
+.media .bouttons {
+  flex: 1;
+  padding: 10px;
+}
+
 
 .pictures:hover
 {
   box-shadow: 6px 6px 6px black;
-  /*
-  width: 70px;
-  height: 74px;*/
+}
+
+.flashes
+{
+  background-color: rgb(255, 0, 0);
 }

@@ -1,11 +1,10 @@
 import os
-from app import app
+from app import app, url
 import urllib.request
 from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory
 from werkzeug.utils import secure_filename
-
 from PIL import Image
-
+import requests
 import json
 
 
@@ -20,6 +19,16 @@ def allowed_file(filename):
 def webPage():
 	files = os.listdir(app.config['UPLOAD_FOLDER']) 
 	return render_template('upload.html', files=files) 
+
+# Route de sélection d'une image
+@app.route('/load/<image>',methods=['GET'])
+def load_image(image):
+	if os.path.exists('./static/uploads/'+image):
+		return 'Image déjà chargée'
+	else:
+		file = {'file':open('../Banque_Images/'+image,'rb')}
+		requests.post(url,files = files)
+		return redirect(url_for('webPage'))
 
 # Route de chargement d'une image
 @app.route('/', methods=['POST'])

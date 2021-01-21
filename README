@@ -20,7 +20,7 @@ Installation de Requests pour effectuer des requêtes à l'API directement avec 
 L'application est hébergée sur un serveur Flask, qui peut être lancé avec la commande suivante: 
 -> FLASK_APP=main.py flask run
 ou
--> python -m main.py
+-> python3 -m main.py
 L'application sera hébergée localement est accessible à l'url "http://localhost:5000/".
 
 Flask utilise le port 5000 par défaut. Ce port peut être déjà utilisé par une autre application. Il peut être judicieux de tuer ces programmes. 
@@ -72,3 +72,10 @@ Elements testés :
 - Affichage d'une image
 - Correspondance des métadonnées de l'image "Adobe.png" avec son nom
 - Suppression de l'image "Adobe.png"
+
+
+
+
+NOTES:
+- Penser à créer un fichier de config avec les différentes constantes
+- Format pour faire des readme plus jolis markdown

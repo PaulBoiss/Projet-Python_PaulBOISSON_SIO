@@ -1,0 +1,2 @@
+---------------------------------Introduction---------------------------------
+Bienvenue sur mon API de gestion de fichiers, réalisée en tant que projet du module "Data Intensive Python 2020". Cette API, codée sous Python (3.8.6) permet de stocker des vignettes d'images aux formats .jpeg, .jpg, .png ou .gif, de les afficher et de récupérer leurs métadonnées.  Dans le cadre de ce projet, les vignettes sont stockées localement, dans le dossier static/uploads. Le programme est livré avec un dossier Banque_Images qui contient des fichiers utilisables pour essayer l'application. 

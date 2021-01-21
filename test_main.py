@@ -11,7 +11,7 @@ def test_get_webPage():
 
 def test_upload_image():
     print("------Test d'importation d'une image Adobe.png'------")
-    files = {'file':open('../Banque_Images/Adobe.png','rb')}
+    files = {'file':open('./Banque_Images/Adobe.png','rb')}
     r = requests.post(url, files = files)
     print("Aboutissement de la requête (200 si ok):", r.status_code)
     print("Le fichier a-t-il bien été chargé ? (True si ok): ", os.path.exists('./static/uploads/Adobe.png'))
@@ -19,7 +19,7 @@ def test_upload_image():
 
 def test_mauvais_fichier():
     print("------Test importation d'un fichier Sujet_Projet.pdf------")
-    files = {'file':open('../Banque_Images/Sujet_Projet.pdf','rb')}
+    files = {'file':open('./Banque_Images/Sujet_Projet.pdf','rb')}
     r = requests.post(url, files = files)
     print("Aboutissement de la requête (200 si ok):", r.status_code)
     print("Mauvais format importé ? (False si ok): ", os.path.exists('./static/uploads/Sujet_Projet.pdf'))

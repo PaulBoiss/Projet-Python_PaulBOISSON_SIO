@@ -3,7 +3,9 @@ from app import app, url
 import urllib.request
 from flask import Flask, flash, request, redirect, url_for, render_template, send_from_directory
 from werkzeug.utils import secure_filename
-from PIL import Image
+import PIL.Image
+import PIL.ImageTk
+from tkinter import Tk, Label
 import requests
 import json
 
@@ -20,15 +22,39 @@ def webPage():
 	files = os.listdir(app.config['UPLOAD_FOLDER']) 
 	return render_template('upload.html', files=files) 
 
-# Route de sélection d'une image
-@app.route('/load/<image>',methods=['GET'])
-def load_image(image):
-	if os.path.exists('./static/uploads/'+image):
+# Liste des fichiers chargés (ligne de commande)
+@app.route('/liste_com', methods=['GET'])
+def listImages():
+	liste = ''
+	files = os.listdir(app.config['UPLOAD_FOLDER']) 
+	for file in files:
+		liste = liste + '     '+ file
+	return(liste)
+
+
+# Route de sélection d'une image (ligne de commande)
+@app.route('/load_com/<picture>',methods=['GET'])
+def load_image(picture):
+	if not os.path.exists('./Banque_Images/'+picture):
+		return "Cette image n'existe pas dans le dossier Banque_Images"
+	if os.path.exists('./static/uploads/'+ picture):
 		return 'Image déjà chargée'
+	if picture == '':
+		return 'Aucune image sélectionnée'
 	else:
-		file = {'file':open('../Banque_Images/'+image,'rb')}
-		requests.post(url,files = files)
-		return redirect(url_for('webPage'))
+		try:
+			file = PIL.Image.open("./Banque_Images/"+picture)
+		except:
+			return "Ce format d'image n'est pas autorisé. Veuillez utiliser les formats suivants: png, jpg, jpeg, gif"
+		else:
+			if file and allowed_file(picture):
+				filename = secure_filename(picture)
+				file.thumbnail((400, 400))
+				file.save('./static/uploads/'+filename)
+				return 'Image correctement chargée'
+			else:
+				return "Ce format d'image n'est pas autorisé. Veuillez utiliser les formats suivants: png, jpg, jpeg, gif"
+
 
 # Route de chargement d'une image
 @app.route('/', methods=['POST'])
@@ -45,21 +71,37 @@ def upload_image():
 		return redirect(request.url)
 	if file and allowed_file(file.filename):
 		filename = secure_filename(file.filename)
-		img=Image.open(file)
-		print('La taille de l image est :', img.size)
-		img.thumbnail((400, 400)) # Redimensionnement de l'image
-		print('Maintenant la taille de l image est :',img.size)
+		img=PIL.Image.open(file)
+		img.thumbnail((400, 400))
 		img.save(os.path.join(app.config['UPLOAD_FOLDER'], filename)) 
 		flash('Image correctement chargée et affichée') 
 		return redirect(request.url)
 	else:
-		flash('Ce format d image n est pas autorisé. Veuillez utiliser les formats suivants: png, jpg, jpeg, gif')
+		flash("Ce format d'image n est pas autorisé. Veuillez utiliser les formats suivants: png, jpg, jpeg, gif")
 		return redirect(request.url)
-
+ 
 # Route pour afficher un des fichier en grand
 @app.route('/display/<filename>',methods=['GET'])
 def display_image(filename):
 	return redirect(url_for('static', filename='uploads/' + filename), code=301)
+ 
+# Route pour afficher un des fichier en grand (ligne de commande)
+@app.route('/display_com/<filename>',methods=['GET'])
+def display_imageTk(filename):
+	try:
+   		load = PIL.Image.open("./static/uploads/"+filename)
+	except:
+		return "Le fichier n'existe pas"
+	else:
+		root = Tk()
+		root.title("Vignette "+filename)
+		root.geometry("550x450")
+		photo = PIL.ImageTk.PhotoImage(load)
+		label_img = Label(root, image = photo)
+		label_img.place(x=0, y=0)
+		root.mainloop()
+		return "Image affichée"
+
 
 # Route pour supprimer un fichier du stockage
 @app.route('/removeFile/<filename>')
@@ -72,11 +114,27 @@ def removeFile(filename):
 	else:
 		return redirect(url_for('webPage'))
 
+# Route pour supprimer un fichier du stockage (ligne de commande)
+@app.route('/removeFile_com/<filename>')
+def removeFileCom(filename):
+	try:
+   		os.remove("./static/uploads/"+filename)
+	except:
+		return "Le fichier n'existe pas"
+	else:
+		return "Fichier parfaitement supprimé"
+
+
 # Route pour obtenir les metadonnées d'une des images
 @app.route('/metadata/<filename>')
 def seeMetadata(filename):
-	img = Image.open('./static/uploads/'+ filename)
-	return(json.dumps({'Nom':filename.rsplit('.', 1)[0].lower(), 'Format':img.format, 'Dimensions':img.size},indent=4))
+	try:
+		img = PIL.Image.open('./static/uploads/'+ filename)
+	except:
+		return "Le fichier n'existe pas"
+	else:
+		return(json.dumps({'Nom':filename.rsplit('.', 1)[0].lower(), 'Format':img.format, 'Dimensions':img.size},indent=4))
+
 
 # Lancement de l'application à l'execution du script
 if __name__ == "__main__":

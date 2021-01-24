@@ -19,11 +19,11 @@ Installation de Requests pour effectuer des requêtes à l'API directement avec 
 
 # Lancement du serveur
 L'application est hébergée sur un serveur Flask, qui peut être lancé avec la commande suivante:  
-&rarr; FLASK_APP=main.py flask run
-ou
-&rarr; python3 -m main.py
-ou
-&rarr; python3 -m main
+&rarr; FLASK_APP=main.py flask run  
+ou  
+&rarr; python3 -m main.py  
+ou  
+&rarr; python3 -m main  
 
 L'application sera hébergée localement est accessible à l'url "http://localhost:5000/".
 
